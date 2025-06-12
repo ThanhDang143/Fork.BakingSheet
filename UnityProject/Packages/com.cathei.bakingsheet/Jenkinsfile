@@ -119,7 +119,7 @@ pipeline {
                             def registryHostPath = "//${registryAuthority}/"
 
                             // Configure .npmrc for Verdaccio registry & auth token
-                            bat "echo registry=https://packages.unity.com > .npmrc"
+                            bat "echo registry=${env.VERDACCIO_REGISTRY_URL} > .npmrc"
                             bat "echo ${registryHostPath}:_auth=\"${encodedAuth}\" >> .npmrc"
                             echo ".npmrc configured."
                         }
