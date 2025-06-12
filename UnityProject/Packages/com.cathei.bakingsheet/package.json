@@ -1,5 +1,5 @@
 {
-  "name": "com.cathei.bakingsheet",
+  "name": "thanhdv.cathei.bakingsheet",
   "displayName": "BakingSheet",
   "author": {
     "name": "Maxwell Keonwoo Kang"
@@ -10,6 +10,7 @@
   "license": "MIT",
   "documentationUrl": "https://github.com/cathei/BakingSheet",
   "dependencies": {
-    "com.unity.nuget.newtonsoft-json": "3.0.2"
+    "thanhdv.unity.nuget.newtonsoft-json": "3.2.1",
+    "thanhdv.cysharp.unitask": "2.5.10"
   }
 }
