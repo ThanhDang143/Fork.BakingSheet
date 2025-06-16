@@ -31,7 +31,7 @@ pipeline {
         // Release if commit has this key
         RELEASE_KEYWORD = "Release v"
 
-        UNITY_EXECUTABLE = "C:\\Program Files\\Unity\\Hub\\Editor\\2022.3.59f1\\Editor\\Unity.exe"
+        UNITY_EXECUTABLE = '"C:\\Program Files\\Unity\\Hub\\Editor\\2022.3.59f1\\Editor\\Unity.exe"'
     }
     // === End Configuration ===
 
