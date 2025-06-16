@@ -30,8 +30,6 @@ pipeline {
 
         // Release if commit has this key
         RELEASE_KEYWORD = "Release v"
-
-        UNITY_EXECUTABLE = '"C:\\Program Files\\Unity\\Hub\\Editor\\2022.3.59f1\\Editor\\Unity.exe"'
     }
     // === End Configuration ===
 
@@ -125,12 +123,16 @@ pipeline {
                             bat "echo ${registryHostPath}:_auth=\"${encodedAuth}\" >> .npmrc"
                             echo ".npmrc configured."
                         }
+
+                        // // Install dependencies (might run prepublish scripts)
+                        // echo "Running npm install..."
+                        // bat "npm install --no-deps"
                     }
                 }
             }
         }
 
-        stage("Publish via Unity") {
+        stage("Publish") {
             when {
                 expression { return currentBuild.result != "ABORTED" }
             }
@@ -141,9 +143,14 @@ pipeline {
                     script {                        
                         // Use the version read from package.json
                         echo "Publishing package version ${packageVersionFromFile} to ${env.VERDACCIO_REGISTRY_URL}"
-                        // Publish via Unity
-                        echo "Executing Unity Editor at: ${env.UNITY_EXECUTABLE}"
-                        bat """ ${env.UNITY_EXECUTABLE} -batchmode -quit -projectPath .\\UnityProject -executeMethod ThanhDV.CiCd.Publisher.Publish -logFile -"""
+                        try {
+                            // Publish using npm (reads package.json for name/version, uses .npmrc for auth/registry)
+                            bat "npm publish --registry ${env.VERDACCIO_REGISTRY_URL}"
+                            echo "Package version ${packageVersionFromFile} published successfully!"
+                        } catch (err) {
+                            echo "ERROR: Failed to publish package!"
+                            error "Publish failed: ${err.getMessage()}"
+                        }
                     }
                 }
             }
