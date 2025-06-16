@@ -28,7 +28,5 @@ public class Tester : MonoBehaviour
         SheetContainer sheetContainer = await bsController.LoadContainer<SheetContainer>("_Container");
         string desc = sheetContainer.Demos2[0].Description;
         Debug.Log(desc);
-        
-        DemoSheet1.Row
     }
 }
