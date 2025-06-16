@@ -126,7 +126,7 @@ pipeline {
 
                         // Install dependencies (might run prepublish scripts)
                         echo "Running npm install..."
-                        bat "npm install"
+                        bat "npm install --no-deps"
                     }
                 }
             }
