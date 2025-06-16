@@ -1,9 +1,11 @@
 // BakingSheet, Maxwell Keonwoo Kang <code.athei@gmail.com>, 2022
 
+using System.IO;
 using Cathei.BakingSheet.Unity;
 using Newtonsoft.Json.Linq;
 using UnityEditor;
 using UnityEditor.UIElements;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Cathei.BakingSheet.Editor
@@ -25,7 +27,8 @@ namespace Cathei.BakingSheet.Editor
         public override VisualElement CreateInspectorGUI()
         {
             var inspector = new VisualElement();
-            inspector.styleSheets.Add(styleSheet);
+            if (styleSheet != null) inspector.styleSheets.Add(styleSheet);
+            else { Debug.LogError("styleSheet is null!!!"); }
 
             var jObject = JObject.Parse(serializedRow.stringValue);
 
