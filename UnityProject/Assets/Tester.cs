@@ -25,7 +25,7 @@ public class Tester : MonoBehaviour
     private async void Test()
     {
         BakingSheetController bsController = new();
-        SheetContainer sheetContainer = await bsController.LoadContainer<SheetContainer>("_Container");
+        SheetContainer sheetContainer = await bsController.LoadContainerAsync<SheetContainer>("_Container");
         string desc = sheetContainer.Demos2[0].Description;
         Debug.Log(desc);
     }

@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Cathei.BakingSheet;
 using Cathei.BakingSheet.Unity;
 using Cysharp.Threading.Tasks;
 using UnityEditor;
+using UnityEditor.AddressableAssets;
+using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
 
 namespace ThanhDV.Cathei.BakingSheet.Implementation
@@ -103,8 +106,68 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
             ScriptableObjectSheetExporter exporter = new(sOPath);
             await sheetContainer.Store(exporter);
 
+            AssetDatabase.Refresh();
+
+            MakeAddressable(exporter, sOPath);
+
             Debug.Log($"<color=green>[BakingSheet] Convert Json {containerType.Name} to Scriptable Object successfully!!!</color>");
             return true;
+        }
+
+        private void MakeAddressable(ScriptableObjectSheetExporter exporter, string sOPath)
+        {
+            string assetName = $"{exporter.Result.name}.asset";
+            string assetPath = Path.Combine(sOPath, assetName);
+            string guid = AssetDatabase.AssetPathToGUID(assetPath);
+
+            if (string.IsNullOrEmpty(guid))
+            {
+                Debug.LogError($"[BakingSheet] Could not find asset at path {assetPath} to make it addressable. GUID is null or empty.");
+            }
+            else
+            {
+                AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
+                if (settings == null)
+                {
+                    Debug.LogError("[BakingSheet] Addressable Asset Settings not found. Please initialize Addressables in your project (Window > Asset Management > Addressables > Groups, then click 'Create Addressables Settings').");
+                }
+                else
+                {
+                    AddressableAssetGroup group = settings.DefaultGroup;
+                    if (group == null)
+                    {
+                        if (settings.groups.Count > 0)
+                        {
+                            group = settings.groups[0];
+                        }
+                        else
+                        {
+                            group = settings.CreateGroup("Default Local Group", false, false, true, null, typeof(UnityEditor.AddressableAssets.Settings.GroupSchemas.BundledAssetGroupSchema));
+                            settings.DefaultGroup = group;
+                        }
+
+                        if (group == null)
+                        {
+                            Debug.LogError("[BakingSheet] No Addressable Asset Group found or could be created. Cannot make asset addressable.");
+                        }
+                    }
+
+                    if (group != null)
+                    {
+                        AddressableAssetEntry entry = settings.CreateOrMoveEntry(guid, group, false, false);
+                        if (entry != null)
+                        {
+                            entry.address = exporter.Result.name;
+                            settings.SetDirty(AddressableAssetSettings.ModificationEvent.EntryModified, entry, true);
+                            Debug.Log($"<color=green>[BakingSheet] Made ScriptableObject '{assetName}' addressable with address '{entry.address}' in group '{group.Name}'.</color>");
+                        }
+                        else
+                        {
+                            Debug.LogError($"[BakingSheet] Failed to create or move Addressable entry for {assetName} (GUID: {guid}).");
+                        }
+                    }
+                }
+            }
         }
 
         private bool VerifySheetContainer(SheetContainerBase sheetContainer, Type containerType)

@@ -16,7 +16,7 @@ namespace ThanhDV.Cathei.BakingSheet.Examples
             public BaseStats Stats { get; private set; } // Dữ liệu struct lồng nhau
             public string Description { get; private set; }
             public DateTime? ReleaseDate { get; private set; } // Kiểu nullable
-            public AssetReference Icon { get; private set; } // Tham chiếu đến asset trong Resources
+            public string IconAddr { get; private set; } // Tham chiếu đến asset trong Resources
         }
 
         public class Elem : SheetRowElem

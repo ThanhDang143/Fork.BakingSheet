@@ -7,11 +7,11 @@ using UnityEngine.AddressableAssets;
 
 namespace ThanhDV.Cathei.BakingSheet.Implementation
 {
-    public class BakingSheetController
+    public class BakingSheetController : IDataSheetController
     {
         private List<SheetContainerBase> sheetContainers;
 
-        public async UniTask<T> LoadContainer<T>(string containerAddress) where T : SheetContainerBase
+        public async UniTask<T> LoadContainerAsync<T>(string containerAddress) where T : SheetContainerBase
         {
             sheetContainers ??= new();
             for (int i = 0; i < sheetContainers.Count; i++)
@@ -34,7 +34,5 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
 
             return sheetContainer;
         }
-
-        // public async UniTask<> LoadRow()
     }
 }
