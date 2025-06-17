@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Cathei.BakingSheet;
-using Cathei.BakingSheet.Unity;
-using UnityEngine.AddressableAssets;
 
 namespace ThanhDV.Cathei.BakingSheet.Examples
 {

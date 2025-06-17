@@ -3,7 +3,6 @@
 using System.Linq;
 using UnityEditor;
 using UnityEditor.PackageManager;
-using UnityEngine;
 
 namespace Cathei.BakingSheet.Unity
 {

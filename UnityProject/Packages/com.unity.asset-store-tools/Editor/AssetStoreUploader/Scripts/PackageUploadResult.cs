@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace AssetStoreTools.Uploader
+﻿namespace AssetStoreTools.Uploader
 {
     public class PackageUploadResult
     {

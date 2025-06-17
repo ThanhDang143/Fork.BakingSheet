@@ -2,7 +2,6 @@
 
 using System;
 using System.Reflection;
-using Cathei.BakingSheet.Unity;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;

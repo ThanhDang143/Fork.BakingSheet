@@ -1,7 +1,5 @@
 using System;
 using System.Threading;
-using Cathei.BakingSheet;
-using Cathei.BakingSheet.Unity;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;

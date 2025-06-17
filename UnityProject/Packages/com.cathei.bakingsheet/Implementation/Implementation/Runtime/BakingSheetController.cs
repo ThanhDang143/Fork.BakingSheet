@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Cathei.BakingSheet;
 using Cathei.BakingSheet.Unity;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 namespace ThanhDV.Cathei.BakingSheet.Implementation

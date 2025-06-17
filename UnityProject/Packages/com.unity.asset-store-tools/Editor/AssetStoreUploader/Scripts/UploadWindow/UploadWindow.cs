@@ -1,7 +1,5 @@
 ﻿using System;
-using AssetStoreTools.Validator;
 using UnityEditor;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace AssetStoreTools.Uploader 

@@ -1,6 +1,5 @@
 // BakingSheet, Maxwell Keonwoo Kang <code.athei@gmail.com>, 2022
 
-using System.IO;
 using Cathei.BakingSheet.Unity;
 using Newtonsoft.Json.Linq;
 using UnityEditor;

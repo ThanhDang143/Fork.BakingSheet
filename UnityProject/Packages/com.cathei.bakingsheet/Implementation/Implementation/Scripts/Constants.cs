@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace ThanhDV.Cathei.BakingSheet.Implementation
 {
     public static class Constants
