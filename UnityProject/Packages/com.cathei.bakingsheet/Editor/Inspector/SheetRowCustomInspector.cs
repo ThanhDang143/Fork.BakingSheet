@@ -27,8 +27,8 @@ namespace Cathei.BakingSheet.Editor
         public override VisualElement CreateInspectorGUI()
         {
             var inspector = new VisualElement();
-            if (styleSheet != null) inspector.styleSheets.Add(styleSheet);
-            else { Debug.LogError("styleSheet is null!!!"); }
+
+            ApplyStyles(inspector);
 
             var jObject = JObject.Parse(serializedRow.stringValue);
 
@@ -43,6 +43,45 @@ namespace Cathei.BakingSheet.Editor
             }
 
             return inspector;
+        }
+
+        private void ApplyStyles(VisualElement inspector)
+        {
+            if (styleSheet != null)
+            {
+                inspector.styleSheets.Add(styleSheet);
+                return;
+            }
+
+            var dimgray = new StyleColor(new Color(0.41f, 0.41f, 0.41f));
+
+            inspector.schedule.Execute(() =>
+            {
+                inspector.Query<Label>().Build().ForEach(label => label.style.minWidth = 130);
+            });
+
+            inspector.schedule.Execute(() =>
+            {
+                inspector.Query<TextField>(className: "readonly").Build().ForEach(field =>
+                {
+                    var textInput = field.Q(className: TextField.inputUssClassName);
+                    if (textInput != null) textInput.style.color = dimgray;
+                });
+            });
+
+            inspector.schedule.Execute(() =>
+            {
+                inspector.Query<ObjectField>(className: "readonly").Build().ForEach(field =>
+                {
+                    var label = field.Q<Label>();
+                    if (label != null)
+                        label.style.color = dimgray;
+
+                    var selector = field.Q(className: "unity-object-field-selector");
+                    if (selector != null)
+                        selector.style.display = DisplayStyle.None;
+                });
+            });
         }
 
         private void ExpandJsonToken(VisualElement parent, string label, JToken jToken)
