@@ -206,6 +206,8 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
             }
         }
 
+
+
         private void OpenExcelFolder()
         {
             FileIO.OpenFolder(excelPath);
@@ -219,6 +221,23 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
         private void OpenSOFolder()
         {
             FileIO.OpenFolder(scriptableObjectPath);
+        }
+
+        [Button(ButtonSizes.Medium), GUIColor("green"), ShowIf("@IsAllPathSaved()")]
+        private void SavePathSettings()
+        {
+            EditorPrefs.SetString(EditorPrefKeys.EXCEL_PATH, excelPath);
+            EditorPrefs.SetString(EditorPrefKeys.JSON_PATH, jsonPath);
+            EditorPrefs.SetString(EditorPrefKeys.SCRIPTABLE_OBJECT_PATH, scriptableObjectPath);
+        }
+
+        private bool IsAllPathSaved()
+        {
+            bool excelPathSaved = excelPath == EditorPrefs.GetString(EditorPrefKeys.EXCEL_PATH);
+            bool jsonPathSaved = jsonPath == EditorPrefs.GetString(EditorPrefKeys.JSON_PATH);
+            bool sOPathSaved = scriptableObjectPath == EditorPrefs.GetString(EditorPrefKeys.SCRIPTABLE_OBJECT_PATH);
+
+            return !excelPathSaved || !jsonPathSaved || !sOPathSaved;
         }
 
         [Button(ButtonSizes.Medium), GUIColor("red")]
