@@ -136,19 +136,11 @@
       "dependencies": {
         "com.unity.nuget.newtonsoft-json": "3.2.1",
         "thanhdv.cysharp.unitask": "2.5.10",
-        "thanhdv.sirenix.odininspector": "3.3.113",
         "com.unity.addressables": "1.22.3"
       }
     },
     "thanhdv.cysharp.unitask": {
       "version": "2.5.10",
-      "depth": 1,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://upm.thanhdv.icu"
-    },
-    "thanhdv.sirenix.odininspector": {
-      "version": "3.3.113",
       "depth": 1,
       "source": "registry",
       "dependencies": {},
