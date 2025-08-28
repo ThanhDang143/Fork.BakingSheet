@@ -4,7 +4,7 @@
   "author": {
     "name": "Maxwell Keonwoo Kang"
   },
-  "version": "4.1.39",
+  "version": "4.1.310",
   "unity": "2022.3",
   "description": "Easy datasheet management for C# and Unity.\nSupports Excel, Google Sheet, JSON and CSV format.",
   "license": "MIT",

@@ -14,7 +14,7 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
         {
             if (containerType == null)
             {
-                Debug.LogError("[BakingSheet] containerType can not be null!!!");
+                Debug.Log($"<color=red>[BakingSheet] containerType can not be null!!!</color>");
                 return null;
             }
 
@@ -24,7 +24,7 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
             }
             catch (Exception e)
             {
-                Debug.LogError($"[BakingSheet] Failed to instantiate {containerType.Name}. Make sure it has a constructor that accepts an ILogger. Error: {e.Message}");
+                Debug.Log($"<color=red>[BakingSheet] Failed to instantiate {containerType.Name}. Make sure it has a constructor that accepts an ILogger!!!</color>\n{e}");
                 return null;
             }
         }
@@ -49,7 +49,7 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
 
             if (containerTypes.Count == 0)
             {
-                Debug.LogError("[BakingSheet] No class inheriting from 'SheetContainerBase' found in user assemblies.");
+                Debug.Log($"<color=red>[BakingSheet] No class inheriting from 'SheetContainerBase' found in user assemblies!!!</color>");
                 return null;
             }
 

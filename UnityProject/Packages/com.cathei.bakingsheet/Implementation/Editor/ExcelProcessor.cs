@@ -124,14 +124,14 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
 
             if (string.IsNullOrEmpty(guid))
             {
-                Debug.LogError($"[BakingSheet] Could not find asset at path {assetPath} to make it addressable. GUID is null or empty.");
+                Debug.Log($"<color=red>[BakingSheet] Could not find asset at path {assetPath} to make it addressable. GUID is null or empty!!!</color>");
             }
             else
             {
                 AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
                 if (settings == null)
                 {
-                    Debug.LogError("[BakingSheet] Addressable Asset Settings not found. Please initialize Addressables in your project (Window > Asset Management > Addressables > Groups, then click 'Create Addressables Settings').");
+                    Debug.Log($"<color=red>[BakingSheet] Addressable Asset Settings not found. Please initialize Addressables in your project (Window > Asset Management > Addressables > Groups, then click 'Create Addressables Settings')!!!</color>");
                 }
                 else
                 {
@@ -141,7 +141,7 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
                         group = settings.CreateGroup("BakingSheet", false, false, true, null, typeof(AddressableGroupSchemas.BundledAssetGroupSchema));
                         if (group == null)
                         {
-                            Debug.LogError("[BakingSheet] No Addressable Asset Group found or could be created. Cannot make asset addressable.");
+                            Debug.Log($"<color=red>[BakingSheet] No Addressable Asset Group found or could be created. Cannot make asset addressable!!!</color>");
                         }
                     }
 
@@ -152,11 +152,11 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
                         {
                             entry.address = exporter.Result.name;
                             settings.SetDirty(AddressableAssetSettings.ModificationEvent.EntryModified, entry, true);
-                            Debug.Log($"<color=green>[BakingSheet] Made ScriptableObject '{assetName}' addressable with address '{entry.address}' in group '{group.Name}'.</color>");
+                            Debug.Log($"<color=green>[BakingSheet] Made ScriptableObject '{assetName}' addressable with address '{entry.address}' in group '{group.Name}'!!!</color>");
                         }
                         else
                         {
-                            Debug.LogError($"[BakingSheet] Failed to create or move Addressable entry for {assetName} (GUID: {guid}).");
+                            Debug.Log($"<color=red>[BakingSheet] Failed to create or move Addressable entry for {assetName} (GUID: {guid})!!!</color>");
                         }
                     }
                 }
@@ -170,7 +170,7 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
                 ISheet sheet = prop.GetValue(sheetContainer) as ISheet;
                 if (sheet == null || sheet.Count <= 0)
                 {
-                    Debug.LogError($"[BakingSheet] Sheet '{prop.Name}' in container '{containerType.Name}' is empty or was not loaded after baking. Check if a corresponding sheet tab exists in Excel files.");
+                    Debug.Log($"<color=red>[BakingSheet] Sheet '{prop.Name}' in container '{containerType.Name}' is empty or was not loaded after baking. Check if a corresponding sheet tab exists in Excel files!!!</color>");
                     return false;
                 }
             }

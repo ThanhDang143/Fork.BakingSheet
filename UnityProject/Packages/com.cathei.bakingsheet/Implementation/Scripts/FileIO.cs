@@ -36,7 +36,7 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
         {
             if (!IsExistPath(path))
             {
-                Debug.LogError("[BakingSheet] Folder is not exist!!!");
+                Debug.Log($"<color=red>[BakingSheet] Folder is not exist!!!</color>");
                 return;
             }
 
@@ -44,7 +44,7 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
 
             if (folderObject == null)
             {
-                Debug.LogError("[BakingSheet] Folder is not exist!!!");
+                Debug.Log($"<color=red>[BakingSheet] Folder is not exist!!!</color>");
                 return;
             }
 
@@ -59,7 +59,7 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
         {
             if (!IsExistPath(path))
             {
-                Debug.LogError("[BakingSheet] Folder is not exist!!!");
+                Debug.Log($"<color=red>[BakingSheet] Folder is not exist!!!</color>");
                 return false;
             }
 
@@ -67,7 +67,7 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
 
             if (path.ToLower() == "assets")
             {
-                Debug.LogError("[BakingSheet] Can not delete Assets!!!");
+                Debug.Log($"<color=red>[BakingSheet] Can not delete Assets!!!</color>");
                 return false;
             }
 
@@ -81,21 +81,21 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
 
                     if (AssetDatabase.DeleteAsset(entryPath))
                     {
-                        Debug.Log($"[BakingSheet] Deleted: {entryPath}");
+                        Debug.Log($"<color=red>[BakingSheet] Deleted: {entryPath}!!!</color>");
                     }
                     else
                     {
-                        Debug.LogError($"[BakingSheet] Can not delete: {entryPath}");
+                        Debug.Log($"<color=red>[BakingSheet] Can not delete: {entryPath}!!!</color>");
                     }
                 }
 
                 AssetDatabase.Refresh();
-                Debug.Log("[BakingSheet] Deleted completed!!!");
+                Debug.Log($"<color=red>[BakingSheet] Deleted completed!!!</color>");
                 return true;
             }
             catch (System.Exception e)
             {
-                Debug.LogError($"[BakingSheet] Fail to clear folder: {e.Message}!!!");
+                Debug.Log($"<color=red>[BakingSheet] Fail to clear folder: {e.Message}!!!</color>");
                 return false;
             }
         }
