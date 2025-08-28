@@ -1,16 +1,13 @@
-#if UNITY_EDITOR
 using System;
 using System.Threading;
-using Cysharp.Threading.Tasks;
-using Sirenix.OdinInspector;
-using Sirenix.OdinInspector.Editor;
-using Sirenix.Utilities.Editor;
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
 namespace ThanhDV.Cathei.BakingSheet.Implementation
 {
-    public class BakingSheetManagerWindow : OdinEditorWindow
+    // Removed dependency on Odin. Re-implemented UI with standard IMGUI.
+    public class BakingSheetManagerWindow : EditorWindow
     {
         [MenuItem("Tools/Baking Sheet/Manager")]
         private static void OpenWindow()
@@ -18,14 +15,13 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
             ShowWindow();
         }
 
-        protected override void OnEnable()
+        private void OnEnable()
         {
             LoadData();
         }
 
-        protected override void OnDestroy()
+        private void OnDestroy()
         {
-            base.OnDestroy();
             if (cancellationToken != null)
             {
                 cancellationToken.Cancel();
@@ -75,41 +71,30 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
             }
         }
 
-        protected override void OnImGUI()
+        private void OnGUI()
         {
-            ShowHeader();
+            string title = "Baking Sheet Manager";
+            string subtitle = "Implemented by ThanhDV";
+            EditorHelper.CreateHeader(title, subtitle);
+            EditorGUILayout.Space();
 
-            base.OnImGUI();
+            DrawPathSettings();
+            EditorGUILayout.Space(12);
+            DrawBakingSettings();
 
+            GUILayout.FlexibleSpace();
             DrawNotification();
         }
 
-        private GUIStyle titleStyle;
-        private GUIStyle subtitleStyle;
-        private void ShowHeader()
+        private void DrawLine()
         {
-            titleStyle ??= new GUIStyle(EditorStyles.boldLabel)
-            {
-                fontSize = 30,
-                alignment = TextAnchor.MiddleCenter,
-            };
-
-            subtitleStyle ??= new GUIStyle(EditorStyles.label)
-            {
-                fontSize = 12,
-                alignment = TextAnchor.MiddleCenter
-            };
-
-            EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Baking Sheet Manager", titleStyle, GUILayout.Height(50)); // Title
-            EditorGUILayout.LabelField("Implemented by ThanhDV", subtitleStyle); // Subtitle
-            EditorGUILayout.Space();
-            SirenixEditorGUI.HorizontalLineSeparator(Color.gray, 1); // Draw horizontal line.
+            var rect = EditorGUILayout.GetControlRect(false, 2);
+            rect.height = 1;
+            EditorGUI.DrawRect(rect, new Color(0.3f, 0.3f, 0.3f));
         }
 
         #region Path Settings
-        [Title("Path Settings")]
-        [SerializeField, InlineButton("OpenExcelFolder", SdfIconType.FolderSymlinkFill, ""), InlineButton("ChooseExcelFolder", SdfIconType.FolderFill, ""), LabelWidth(150)] private string excelPath = "Assets/_Assets/GameData/Excel";
+        private string excelPath = "Assets/_Assets/GameData/Excel";
         private void ChooseExcelFolder()
         {
             string path = EditorUtility.OpenFolderPanel("Select Excel Folder", excelPath, "");
@@ -123,12 +108,13 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
                 {
                     excelPath = path;
                 }
+                CommitTextFieldChange();
             }
 
             EditorPrefs.SetString(EditorPrefKeys.EXCEL_PATH, excelPath);
         }
 
-        [SerializeField, InlineButton("OpenJsonFolder", SdfIconType.FolderSymlinkFill, ""), InlineButton("ChooseJsonFolder", SdfIconType.FolderFill, ""), LabelWidth(150)] private string jsonPath = "Assets/_Assets/GameData/Json";
+        private string jsonPath = "Assets/_Assets/GameData/Json";
         private void ChooseJsonFolder()
         {
             string path = EditorUtility.OpenFolderPanel("Select Json Folder", jsonPath, "");
@@ -142,12 +128,13 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
                 {
                     jsonPath = path;
                 }
+                CommitTextFieldChange();
             }
 
             EditorPrefs.SetString(EditorPrefKeys.JSON_PATH, jsonPath);
         }
 
-        [SerializeField, InlineButton("OpenSOFolder", SdfIconType.FolderSymlinkFill, ""), InlineButton("ChooseScriptableObjectFolder", SdfIconType.FolderFill, ""), LabelWidth(150)] private string scriptableObjectPath = "Assets/_Assets/GameData/ScriptableObjects";
+        private string scriptableObjectPath = "Assets/_Assets/GameData/ScriptableObjects";
         private void ChooseScriptableObjectFolder()
         {
             string path = EditorUtility.OpenFolderPanel("Select Scriptable Object Folder", scriptableObjectPath, "");
@@ -161,14 +148,19 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
                 {
                     scriptableObjectPath = path;
                 }
+                CommitTextFieldChange();
             }
 
             EditorPrefs.SetString(EditorPrefKeys.SCRIPTABLE_OBJECT_PATH, scriptableObjectPath);
         }
 
-        [HorizontalGroup("PathButton"), Button, ShowIf("@!FileIO.IsExistPath(excelPath)")]
         private void CreateExcelFolder()
         {
+            if (string.IsNullOrWhiteSpace(excelPath))
+            {
+                ShowNotification("Excel Path is empty", MessageType.Error);
+                return;
+            }
             if (FileIO.CreatePath(excelPath, out Exception e))
             {
                 ShowNotification($"Create directory at path '{excelPath}' success", MessageType.Info);
@@ -179,9 +171,13 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
             }
         }
 
-        [HorizontalGroup("PathButton"), Button, ShowIf("@!FileIO.IsExistPath(jsonPath)")]
         private void CreateJsonFolder()
         {
+            if (string.IsNullOrWhiteSpace(jsonPath))
+            {
+                ShowNotification("Json Path is empty", MessageType.Error);
+                return;
+            }
             if (FileIO.CreatePath(jsonPath, out Exception e))
             {
                 ShowNotification($"Create directory at path '{jsonPath}' success", MessageType.Info);
@@ -192,9 +188,13 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
             }
         }
 
-        [HorizontalGroup("PathButton"), Button, ShowIf("@!FileIO.IsExistPath(scriptableObjectPath)")]
         private void CreateScriptableObjectFolder()
         {
+            if (string.IsNullOrWhiteSpace(scriptableObjectPath))
+            {
+                ShowNotification("ScriptableObject Path is empty", MessageType.Error);
+                return;
+            }
             if (FileIO.CreatePath(scriptableObjectPath, out Exception e))
             {
                 ShowNotification($"Create directory at path '{scriptableObjectPath}' success", MessageType.Info);
@@ -205,26 +205,43 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
             }
         }
 
-
-
         private void OpenExcelFolder()
         {
+            if (string.IsNullOrWhiteSpace(excelPath))
+            {
+                ShowNotification("Excel Path is empty", MessageType.Warning);
+                return;
+            }
             FileIO.OpenFolder(excelPath);
         }
 
         private void OpenJsonFolder()
         {
+            if (string.IsNullOrWhiteSpace(jsonPath))
+            {
+                ShowNotification("Json Path is empty", MessageType.Warning);
+                return;
+            }
             FileIO.OpenFolder(jsonPath);
         }
 
         private void OpenSOFolder()
         {
+            if (string.IsNullOrWhiteSpace(scriptableObjectPath))
+            {
+                ShowNotification("ScriptableObject Path is empty", MessageType.Warning);
+                return;
+            }
             FileIO.OpenFolder(scriptableObjectPath);
         }
 
-        [Button(ButtonSizes.Medium), GUIColor("green"), ShowIf("@IsAllPathSaved()")]
         private void SavePathSettings()
         {
+            if (!ArePathsValid())
+            {
+                ShowNotification("Cannot save: one or more paths are empty", MessageType.Error);
+                return;
+            }
             EditorPrefs.SetString(EditorPrefKeys.EXCEL_PATH, excelPath);
             EditorPrefs.SetString(EditorPrefKeys.JSON_PATH, jsonPath);
             EditorPrefs.SetString(EditorPrefKeys.SCRIPTABLE_OBJECT_PATH, scriptableObjectPath);
@@ -239,7 +256,28 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
             return !excelPathSaved || !jsonPathSaved || !sOPathSaved;
         }
 
-        [Button(ButtonSizes.Medium), GUIColor("red")]
+        private bool ArePathsValid()
+        {
+            return !string.IsNullOrWhiteSpace(excelPath) &&
+                   !string.IsNullOrWhiteSpace(jsonPath) &&
+                   !string.IsNullOrWhiteSpace(scriptableObjectPath);
+        }
+
+        private bool SafePathExists(string path)
+        {
+            if (string.IsNullOrWhiteSpace(path)) return false;
+            try { return FileIO.IsExistPath(path); }
+            catch { return false; }
+        }
+
+        // Force IMGUI text fields to refresh displayed value when we change bound string programmatically while focused.
+        private void CommitTextFieldChange()
+        {
+            EditorGUIUtility.editingTextField = false; // end current text editing session
+            GUIUtility.keyboardControl = 0; // remove focus
+            Repaint();
+        }
+
         private void ResetPathSettings()
         {
             EditorPrefs.DeleteAll();
@@ -258,7 +296,19 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
 
         private void DrawNotification()
         {
-            if (isShowingNotification) SirenixEditorGUI.MessageBox("   " + notificationMessage, messageType);
+            if (!isShowingNotification) return;
+            var color = messageType switch
+            {
+                MessageType.Error => new Color(0.8f, 0.3f, 0.3f),
+                MessageType.Warning => new Color(0.9f, 0.6f, 0.2f),
+                MessageType.Info => new Color(0.3f, 0.6f, 0.9f),
+                _ => new Color(0.5f, 0.5f, 0.5f)
+            };
+            EditorGUILayout.Space();
+            var prev = GUI.backgroundColor;
+            GUI.backgroundColor = color;
+            EditorGUILayout.HelpBox(notificationMessage, messageType);
+            GUI.backgroundColor = prev;
         }
 
         private async void ShowNotification(string _message, MessageType _messageType, int duration = 3000)
@@ -277,7 +327,7 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
 
             try
             {
-                await UniTask.Delay(duration, cancellationToken: cancellationToken.Token);
+                await Task.Delay(duration, cancellationToken: cancellationToken.Token);
                 isShowingNotification = false;
                 Repaint();
             }
@@ -292,11 +342,14 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
 
         #region Baking Sheet
         private bool isBaking = false;
-        [Title("Baking Sheet Settings", "", TitleAlignments.Split)]
 
-        [Button("Bake Excel To ScriptableObject", ButtonSizes.Medium), DisableIf("isBaking")]
         private async void BakeExcelToScriptableObject()
         {
+            if (!ArePathsValid())
+            {
+                ShowNotification("Please fill all paths before baking", MessageType.Error);
+                return;
+            }
             ExcelProcessor excelProcessor = new();
 
             isBaking = true;
@@ -313,18 +366,113 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
             ShowNotification("Baking Excel to ScriptableObject complete!", MessageType.Info);
         }
 
-        [HorizontalGroup("BSS"), Button("Delete Json Contents", ButtonSizes.Medium), GUIColor("red"), DisableIf("isBaking")]
         private void DeleteJson()
         {
             FileIO.ClearFolderContents(jsonPath);
         }
 
-        [HorizontalGroup("BSS"), Button("Delete ScriptableObject Contents", ButtonSizes.Medium), GUIColor("red"), DisableIf("isBaking")]
         private void DeleteSO()
         {
             FileIO.ClearFolderContents(scriptableObjectPath);
         }
+
+        private void DrawPathSettings()
+        {
+            GUILayout.Label("Path Settings", EditorStyles.boldLabel);
+            EditorHelper.DrawHorizontalLine(1, -5, Vector4.one * 0.5f);
+            GUILayout.Space(10);
+
+            // Excel Path Field + Buttons
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Excel Path", GUILayout.Width(150));
+            excelPath = EditorGUILayout.TextField(excelPath);
+            if (GUILayout.Button("Open", GUILayout.Width(50))) OpenExcelFolder();
+            if (GUILayout.Button("...", GUILayout.Width(30))) ChooseExcelFolder();
+            EditorGUILayout.EndHorizontal();
+            if (string.IsNullOrWhiteSpace(excelPath))
+            {
+                EditorGUILayout.HelpBox("Excel Path is empty", MessageType.Warning);
+            }
+            else if (!SafePathExists(excelPath))
+            {
+                if (GUILayout.Button("Create Excel Folder")) CreateExcelFolder();
+            }
+
+            // JSON Path
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Json Path", GUILayout.Width(150));
+            jsonPath = EditorGUILayout.TextField(jsonPath);
+            if (GUILayout.Button("Open", GUILayout.Width(50))) OpenJsonFolder();
+            if (GUILayout.Button("...", GUILayout.Width(30))) ChooseJsonFolder();
+            EditorGUILayout.EndHorizontal();
+            if (string.IsNullOrWhiteSpace(jsonPath))
+            {
+                EditorGUILayout.HelpBox("Json Path is empty", MessageType.Warning);
+            }
+            else if (!SafePathExists(jsonPath))
+            {
+                if (GUILayout.Button("Create Json Folder")) CreateJsonFolder();
+            }
+
+            // ScriptableObject Path
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("ScriptableObject Path", GUILayout.Width(150));
+            scriptableObjectPath = EditorGUILayout.TextField(scriptableObjectPath);
+            if (GUILayout.Button("Open", GUILayout.Width(50))) OpenSOFolder();
+            if (GUILayout.Button("...", GUILayout.Width(30))) ChooseScriptableObjectFolder();
+            EditorGUILayout.EndHorizontal();
+            if (string.IsNullOrWhiteSpace(scriptableObjectPath))
+            {
+                EditorGUILayout.HelpBox("ScriptableObject Path is empty", MessageType.Warning);
+            }
+            else if (!SafePathExists(scriptableObjectPath))
+            {
+                if (GUILayout.Button("Create ScriptableObject Folder")) CreateScriptableObjectFolder();
+            }
+
+            EditorGUILayout.Space(6);
+            EditorGUILayout.BeginHorizontal();
+            if (IsAllPathSaved())
+            {
+                var prev = GUI.color;
+                GUI.color = ArePathsValid() ? Color.green : new Color(0.7f, 0.7f, 0.7f);
+                GUI.enabled = ArePathsValid();
+                if (GUILayout.Button("Save Path Settings", GUILayout.Height(24))) SavePathSettings();
+                GUI.enabled = true;
+                GUI.color = prev;
+            }
+            var prev2 = GUI.color;
+            GUI.color = Color.red;
+            if (GUILayout.Button("Reset Path Settings", GUILayout.Height(24))) ResetPathSettings();
+            GUI.color = prev2;
+            EditorGUILayout.EndHorizontal();
+        }
+
+        private void DrawBakingSettings()
+        {
+            GUILayout.Label("Baking Sheet Settings", EditorStyles.boldLabel);
+            EditorHelper.DrawHorizontalLine(1, -5, Vector4.one * 0.5f);
+            GUILayout.Space(10);
+
+            EditorGUILayout.BeginHorizontal();
+            GUI.enabled = !isBaking;
+            if (GUILayout.Button("Bake Excel To ScriptableObject", GUILayout.Height(30)))
+            {
+                BakeExcelToScriptableObject();
+            }
+            GUI.enabled = true;
+            EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.BeginHorizontal();
+            GUI.enabled = !isBaking;
+            var prev = GUI.color;
+            GUI.color = Color.red;
+            if (GUILayout.Button("Delete Json Contents")) DeleteJson();
+            if (GUILayout.Button("Delete ScriptableObject Contents")) DeleteSO();
+            GUI.color = prev;
+            GUI.enabled = true;
+            EditorGUILayout.EndHorizontal();
+        }
         #endregion
     }
 }
-#endif

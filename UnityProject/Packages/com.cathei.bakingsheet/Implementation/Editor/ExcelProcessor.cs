@@ -3,21 +3,22 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Cathei.BakingSheet;
 using Cathei.BakingSheet.Unity;
-using Cysharp.Threading.Tasks;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
 using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
+using AddressableGroupSchemas = UnityEditor.AddressableAssets.Settings.GroupSchemas;
 
 namespace ThanhDV.Cathei.BakingSheet.Implementation
 {
     public class ExcelProcessor : IProcessor
     {
-        public async UniTask<bool> ConvertToJson()
+        public async Task<bool> ConvertToJson()
         {
-            List<UniTask<bool>> convertTasks = new();
+            List<Task<bool>> convertTasks = new();
             List<Type> containerTypes = ProcessorUtilities.FindSheetContainerType();
 
             if (containerTypes == null || containerTypes.Count <= 0)
@@ -31,14 +32,14 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
                 convertTasks.Add(ConvertToJsonTask(containerType));
             }
 
-            bool[] results = await UniTask.WhenAll(convertTasks);
+            bool[] results = await Task.WhenAll(convertTasks);
 
             if (results.Any(task => !task)) return false;
 
             return true;
         }
 
-        private async UniTask<bool> ConvertToJsonTask(Type containerType)
+        private async Task<bool> ConvertToJsonTask(Type containerType)
         {
             UnityLogger logger = UnityLogger.Default;
 
@@ -63,10 +64,10 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
             return true;
         }
 
-        public async UniTask<bool> ConvertToScriptableObject()
+        public async Task<bool> ConvertToScriptableObject()
         {
             IProcessor processor = this;
-            List<UniTask<bool>> convertTasks = new();
+            List<Task<bool>> convertTasks = new();
             List<Type> containerTypes = ProcessorUtilities.FindSheetContainerType();
 
             if (containerTypes == null || containerTypes.Count <= 0)
@@ -80,14 +81,14 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
                 convertTasks.Add(ConvertToSOTask(containerType));
             }
 
-            bool[] results = await UniTask.WhenAll(convertTasks);
+            bool[] results = await Task.WhenAll(convertTasks);
 
             if (results.Any(task => !task)) return false;
 
             return true;
         }
 
-        private async UniTask<bool> ConvertToSOTask(Type containerType)
+        private async Task<bool> ConvertToSOTask(Type containerType)
         {
             UnityLogger logger = UnityLogger.Default;
             IProcessor processor = this;
@@ -134,19 +135,10 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
                 }
                 else
                 {
-                    AddressableAssetGroup group = settings.DefaultGroup;
+                    AddressableAssetGroup group = settings.FindGroup("BakingSheet");
                     if (group == null)
                     {
-                        if (settings.groups.Count > 0)
-                        {
-                            group = settings.groups[0];
-                        }
-                        else
-                        {
-                            group = settings.CreateGroup("Default Local Group", false, false, true, null, typeof(UnityEditor.AddressableAssets.Settings.GroupSchemas.BundledAssetGroupSchema));
-                            settings.DefaultGroup = group;
-                        }
-
+                        group = settings.CreateGroup("BakingSheet", false, false, true, null, typeof(AddressableGroupSchemas.BundledAssetGroupSchema));
                         if (group == null)
                         {
                             Debug.LogError("[BakingSheet] No Addressable Asset Group found or could be created. Cannot make asset addressable.");

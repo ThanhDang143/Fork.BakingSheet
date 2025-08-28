@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using Cathei.BakingSheet;
 using Cathei.BakingSheet.Unity;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -58,7 +57,7 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
         /// <param name="containerAddress">The addressable address of the container.</param>
         /// <param name="cancellationToken">A token to cancel the operation.</param>
         /// <returns>The loaded and baked sheet container.</returns>
-        public async UniTask<T> LoadContainerAsync<T>(string containerAddress, CancellationToken cancellationToken = default) where T : SheetContainerBase
+        public async Task<T> LoadContainerAsync<T>(string containerAddress, CancellationToken cancellationToken = default) where T : SheetContainerBase
         {
             if (_disposed)
                 throw new ObjectDisposedException(nameof(BakingSheetController));
@@ -97,12 +96,12 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
         /// <typeparam name="T">The type of the sheet container.</typeparam>
         /// <param name="containerAddress">The addressable address of the container.</param>
         /// <returns>The loaded and baked sheet container.</returns>
-        public async UniTask<T> LoadContainerAsync<T>(string containerAddress) where T : SheetContainerBase
+        public async Task<T> LoadContainerAsync<T>(string containerAddress) where T : SheetContainerBase
         {
             return await LoadContainerAsync<T>(containerAddress, CancellationToken.None);
         }
 
-        private async UniTask<T> LoadContainerInternalAsync<T>(string containerAddress, string cacheKey, CancellationToken cancellationToken = default) where T : SheetContainerBase
+        private async Task<T> LoadContainerInternalAsync<T>(string containerAddress, string cacheKey, CancellationToken cancellationToken = default) where T : SheetContainerBase
         {
             AsyncOperationHandle<SheetContainerScriptableObject> handle = default;
 
@@ -112,7 +111,7 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
                 handle = Addressables.LoadAssetAsync<SheetContainerScriptableObject>(containerAddress);
                 _activeHandles[cacheKey] = handle;
 
-                await handle.WithCancellation(cancellationToken);
+                await handle.Task;
 
                 if (cancellationToken.IsCancellationRequested)
                 {

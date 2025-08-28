@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6069647471970930485
+--- !u!114 &-8396418417623655940
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -15,7 +15,7 @@ MonoBehaviour:
   serializedRow: '{"Name":"Archer","Race":"Elf","Stats":{"HP":100,"AttackSpeed":1.8},"Description":"The
     sharp-eyed archer.","ReleaseDate":"2023-06-15T00:00:00Z","IconAddr":"Ava002","Arr":[{"RefToSheet1":null,"RequiredExp":0,"BonusStats":null,"AcquiredSkills":["ArrowShot"]},{"RefToSheet1":{"$type":"ref","Value":0},"RequiredExp":1200,"BonusStats":{"Attack":12.0,"Defense":2.0},"AcquiredSkills":["MultiShot"]}],"Id":"CHAR_002"}'
   references:
-  - {fileID: -7447196892668121244, guid: ab4ad3ac86f982844b54270da7908b75, type: 2}
+  - {fileID: 784980239151943041, guid: ab4ad3ac86f982844b54270da7908b75, type: 2}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29,10 +29,10 @@ MonoBehaviour:
   m_Name: Demos2
   m_EditorClassIdentifier: 
   rows:
-  - {fileID: 1354825705976104202}
-  - {fileID: -6069647471970930485}
+  - {fileID: 9084885105389782459}
+  - {fileID: -8396418417623655940}
   typeInfo: ThanhDV.Cathei.BakingSheet.Examples.DemoSheet2+Row
---- !u!114 &1354825705976104202
+--- !u!114 &9084885105389782459
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -47,5 +47,5 @@ MonoBehaviour:
   serializedRow: '{"Name":"Knight","Race":"Human","Stats":{"HP":150,"AttackSpeed":1.2},"Description":"The
     valiant knight.","ReleaseDate":"2023-05-20T00:00:00Z","IconAddr":"Ava001","Arr":[{"RefToSheet1":null,"RequiredExp":0,"BonusStats":null,"AcquiredSkills":["SwordSlash"]},{"RefToSheet1":{"$type":"ref","Value":0},"RequiredExp":1000,"BonusStats":{"Attack":5.0,"Defense":10.0},"AcquiredSkills":["ShieldBash"]},{"RefToSheet1":{"$type":"ref","Value":1},"RequiredExp":2500,"BonusStats":{"Attack":10.0,"Defense":20.0},"AcquiredSkills":["Charge","UltimateSkill"]}],"Id":"CHAR_001"}'
   references:
-  - {fileID: -5769332481905789551, guid: ab4ad3ac86f982844b54270da7908b75, type: 2}
-  - {fileID: 6265296033353550578, guid: ab4ad3ac86f982844b54270da7908b75, type: 2}
+  - {fileID: 5035510713875952113, guid: ab4ad3ac86f982844b54270da7908b75, type: 2}
+  - {fileID: -8088279806771518939, guid: ab4ad3ac86f982844b54270da7908b75, type: 2}

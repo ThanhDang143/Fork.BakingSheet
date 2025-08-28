@@ -1,17 +1,16 @@
 {
   "name": "thanhdv.cathei.bakingsheet",
-  "displayName": "BakingSheet",
+  "displayName": "ThanhDV's BakingSheet",
   "author": {
     "name": "Maxwell Keonwoo Kang"
   },
-  "version": "4.1.38",
-  "unity": "2019.4",
+  "version": "4.1.39",
+  "unity": "2022.3",
   "description": "Easy datasheet management for C# and Unity.\nSupports Excel, Google Sheet, JSON and CSV format.",
   "license": "MIT",
   "documentationUrl": "https://github.com/cathei/BakingSheet",
   "dependencies": {
-    "com.unity.nuget.newtonsoft-json": "3.2.1",
-    "thanhdv.cysharp.unitask": "2.5.10",
-    "com.unity.addressables": "1.22.3"
+    "com.unity.addressables": "1.22.3",
+    "thanhdv.newtonsoft.json": "3.2.5"
   }
 }

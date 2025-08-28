@@ -1,10 +1,10 @@
-using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
 
 namespace ThanhDV.Cathei.BakingSheet.Implementation
 {
     public interface IProcessor
     {
-        UniTask<bool> ConvertToJson();
-        UniTask<bool> ConvertToScriptableObject();
+        Task<bool> ConvertToJson();
+        Task<bool> ConvertToScriptableObject();
     }
 }
