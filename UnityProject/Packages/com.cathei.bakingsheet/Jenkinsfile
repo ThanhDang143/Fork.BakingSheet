@@ -16,7 +16,7 @@ pipeline {
         PROJECT_PATH = "UnityProject/Packages/com.cathei.bakingsheet"
 
         // Verdaccio registry URL
-        VERDACCIO_REGISTRY_URL = "https://upm.thanhdv.icu"
+        VERDACCIO_REGISTRY_URL = "https://upm.thanhdv.com"
         // Jenkins Credential ID for Verdaccio auth (e.g., Secret Text or User/Pass with token)
         VERDACCIO_CREDENTIAL_ID = "THANHDV_VERDACCIO_AUTH"
 
