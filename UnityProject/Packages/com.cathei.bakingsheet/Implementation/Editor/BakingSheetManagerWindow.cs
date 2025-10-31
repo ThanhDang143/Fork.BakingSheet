@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -476,3 +477,4 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
         #endregion
     }
 }
+#endif
