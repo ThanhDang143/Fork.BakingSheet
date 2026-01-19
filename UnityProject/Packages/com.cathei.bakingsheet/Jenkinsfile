@@ -4,7 +4,7 @@ def verdaccioPackageUrl = ""
 
 pipeline {
     // Agent with Node.js & Git required
-    agent { label "thanhsserver" }
+    agent { label "verdaccio-publisher" }
 
     // Ensure Node.js tool is available (configure in Jenkins Global Tool Config)
     tools {
