@@ -50,34 +50,34 @@ pipeline {
             }
         }
         
-        // stage("Validate Commit Message") {
-        //     steps {
-        //         dir(env.PROJECT_PATH) {
-        //             script {
-        //                 def isManualTrigger = false
-        //                 currentBuild.getBuildCauses().each{ cause -> 
-        //                     if (cause instanceof hudson.model.Cause$UserIdCause || cause.shortDescription.contains("Started by user ")) {
-        //                         isManualTrigger = true
-        //                     }
-        //                 }
+        stage("Validate Commit Message") {
+            steps {
+                dir(env.PROJECT_PATH) {
+                    script {
+                        def isManualTrigger = false
+                        currentBuild.getBuildCauses().each{ cause -> 
+                            if (cause instanceof hudson.model.Cause$UserIdCause || cause.shortDescription.contains("Started by user ")) {
+                                isManualTrigger = true
+                            }
+                        }
 
-        //                 if (isManualTrigger) {
-        //                     echo "Build triggered by User! Ignore Validate Commit Message."
-        //                 } else {
-        //                     def commitMessage = bat(script: 'git log -1 --pretty=%%B', returnStdout: true).trim()
-        //                     echo "Checking commit message: ${commitMessage}"
-        //                     if (!commitMessage.contains(RELEASE_KEYWORD)) {
-        //                         echo "Build condition not met! Aborting pipeline..."
-        //                         currentBuild.result = 'ABORTED'
-        //                         return
-        //                     }
-        //                 }
+                        if (isManualTrigger) {
+                            echo "Build triggered by User! Ignore Validate Commit Message."
+                        } else {
+                            def commitMessage = bat(script: 'git log -1 --pretty=%%B', returnStdout: true).trim()
+                            echo "Checking commit message: ${commitMessage}"
+                            if (!commitMessage.contains(RELEASE_KEYWORD)) {
+                                echo "Build condition not met! Aborting pipeline..."
+                                currentBuild.result = 'ABORTED'
+                                return
+                            }
+                        }
 
-        //                 echo "Commit message is valid for release."
-        //             }
-        //         }
-        //     }
-        // }
+                        echo "Commit message is valid for release."
+                    }
+                }
+            }
+        }
 
         stage("Prepare") {
             when {

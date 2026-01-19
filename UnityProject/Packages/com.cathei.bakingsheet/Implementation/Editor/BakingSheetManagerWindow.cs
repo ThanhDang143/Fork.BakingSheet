@@ -10,7 +10,7 @@ namespace ThanhDV.Cathei.BakingSheet.Implementation
     // Removed dependency on Odin. Re-implemented UI with standard IMGUI.
     public class BakingSheetManagerWindow : EditorWindow
     {
-        [MenuItem("Tools/Baking Sheet/Manager")]
+        [MenuItem("Tools/ThanhDV/Baking Sheet/Manager")]
         private static void OpenWindow()
         {
             ShowWindow();
