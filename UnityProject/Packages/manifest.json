@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "com.cathei.betterstreamingassets": "https://github.com/cathei/BetterStreamingAssets-Package.git",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.addressables": "1.22.3",
     "com.unity.ai.navigation": "1.1.6",
@@ -46,7 +45,7 @@
   "scopedRegistries": [
     {
       "name": "ThanhDV",
-      "url": "https://upm.thanhdv.icu",
+      "url": "https://upm.thanhdv.com",
       "scopes": [
         "thanhdv"
       ]

@@ -12,7 +12,7 @@ using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
 using AddressableGroupSchemas = UnityEditor.AddressableAssets.Settings.GroupSchemas;
 
-namespace ThanhDV.Cathei.BakingSheet.Implementation
+namespace ThanhDV.Cathei.BakingSheet
 {
     public class ExcelProcessor : IProcessor
     {

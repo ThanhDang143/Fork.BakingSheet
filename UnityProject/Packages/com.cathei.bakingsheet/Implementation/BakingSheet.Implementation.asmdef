@@ -3,7 +3,6 @@
     "rootNamespace": "ThanhDV.Cathei.BakingSheet",
     "references": [
         "GUID:eff4759ec02784e83a3522cd45057e0b",
-        "GUID:f51ebe6a0ceec4240a699833d6309b23",
         "GUID:9189fea3d2e6747f7aa54a829e77d4eb",
         "GUID:df02fc2854da34e60839910beb076b2b",
         "GUID:0a4ac50fca16049e89c73ef5a6a09cc5",

@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-namespace ThanhDV.Cathei.BakingSheet.Implementation
+namespace ThanhDV.Cathei.BakingSheet
 {
     /// <summary>
     /// Manages loading and caching of BakingSheet data containers.

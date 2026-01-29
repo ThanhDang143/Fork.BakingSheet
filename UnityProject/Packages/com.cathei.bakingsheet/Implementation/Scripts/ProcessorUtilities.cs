@@ -6,7 +6,7 @@ using Cathei.BakingSheet;
 using Cathei.BakingSheet.Unity;
 using UnityEngine;
 
-namespace ThanhDV.Cathei.BakingSheet.Implementation
+namespace ThanhDV.Cathei.BakingSheet
 {
     public static class ProcessorUtilities
     {

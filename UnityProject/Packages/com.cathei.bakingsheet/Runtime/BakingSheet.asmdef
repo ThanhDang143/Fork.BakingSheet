@@ -2,7 +2,6 @@
     "name": "BakingSheet",
     "rootNamespace": "",
     "references": [
-        "BetterStreamingAssets",
         "Unity.Addressables",
         "Unity.ResourceManager"
     ],

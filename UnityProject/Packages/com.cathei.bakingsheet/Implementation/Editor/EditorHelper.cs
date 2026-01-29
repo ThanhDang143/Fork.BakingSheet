@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace ThanhDV.Cathei.BakingSheet.Implementation
+namespace ThanhDV.Cathei.BakingSheet
 {
     public static class EditorHelper
     {

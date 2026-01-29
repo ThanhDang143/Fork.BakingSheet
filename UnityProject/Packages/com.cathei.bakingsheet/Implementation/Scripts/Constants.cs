@@ -1,4 +1,4 @@
-namespace ThanhDV.Cathei.BakingSheet.Implementation
+namespace ThanhDV.Cathei.BakingSheet
 {
     public static class Constants
     {

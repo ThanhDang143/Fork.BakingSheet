@@ -1,5 +1,5 @@
 using ThanhDV.Cathei.BakingSheet.Examples;
-using ThanhDV.Cathei.BakingSheet.Implementation;
+using ThanhDV.Cathei.BakingSheet;
 using UnityEngine;
 
 public class Tester : MonoBehaviour

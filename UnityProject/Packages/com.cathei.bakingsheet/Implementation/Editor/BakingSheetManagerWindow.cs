@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
-namespace ThanhDV.Cathei.BakingSheet.Implementation
+namespace ThanhDV.Cathei.BakingSheet
 {
     // Removed dependency on Odin. Re-implemented UI with standard IMGUI.
     public class BakingSheetManagerWindow : EditorWindow

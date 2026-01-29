@@ -1,12 +1,5 @@
 {
   "dependencies": {
-    "com.cathei.betterstreamingassets": {
-      "version": "https://github.com/cathei/BetterStreamingAssets-Package.git",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "9f004b560570edab5305c6782be6e8f3f7576ad4"
-    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,
@@ -136,7 +129,7 @@
       "depth": 1,
       "source": "registry",
       "dependencies": {},
-      "url": "https://upm.thanhdv.icu"
+      "url": "https://upm.thanhdv.com"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",

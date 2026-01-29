@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace ThanhDV.Cathei.BakingSheet.Implementation
+namespace ThanhDV.Cathei.BakingSheet
 {
     public interface IProcessor
     {
